@@ -15,10 +15,12 @@ import {
   ExternalLink,
   Loader,
   Mail,
+  Moon,
   Phone,
   RefreshCw,
   Search,
   StopCircle,
+  Sun,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -176,6 +178,28 @@ function App() {
     setResidentialRealtorsOutreachFilter,
   ] = useState<"all" | "running" | "stopped">("all");
 
+  // Dark mode state - default to dark mode
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("darkMode");
+    return saved ? JSON.parse(saved) : true; // Default to dark mode
+  });
+
+  // Dark mode toggle function
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    localStorage.setItem("darkMode", JSON.stringify(newMode));
+  };
+
+  // Apply dark mode to document
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
   const webhookUrl =
     "https://n8n.srv834400.hstgr.cloud/webhook/f4317593-ce16-43c6-a49f-1691901e3d8a";
   const creLeadsUrl =
@@ -257,12 +281,12 @@ function App() {
         lastFetched: new Date(),
       });
     } catch (error) {
-      console.error("Error fetching CRE leads:", error);
+      console.error("Error fetching SBA leads:", error);
       setCRELeads((prev) => ({
         ...prev,
         isLoading: false,
         error:
-          error instanceof Error ? error.message : "Failed to fetch CRE leads",
+          error instanceof Error ? error.message : "Failed to fetch SBA leads",
       }));
     }
   };
@@ -1047,22 +1071,72 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div
+      className={`min-h-screen transition-colors duration-200 ${
+        isDarkMode ? "bg-gray-900" : "bg-gray-50"
+      }`}
+    >
       {/* Header */}
-      <header className="bg-white shadow-md border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <header
+        className={`shadow-lg border-b backdrop-blur-sm transition-all duration-300 ${
+          isDarkMode
+            ? "bg-gray-900/95 border-gray-700/50"
+            : "bg-white/95 border-gray-200/50"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="mb-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
-                <Building2 className="h-8 w-8 text-blue-600" />
-                <h1 className="ml-2 text-2xl font-bold text-gray-900">
-                  Real Estate Leads Dashboard
-                </h1>
+                <div
+                  className={`p-2 rounded-xl transition-all duration-300 ${
+                    isDarkMode ? "bg-blue-600/20" : "bg-blue-100"
+                  }`}
+                >
+                  <Building2 className="h-8 w-8 text-blue-600" />
+                </div>
+                <div className="ml-4">
+                  <h1
+                    className={`text-2xl font-bold transition-colors duration-200 ${
+                      isDarkMode ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    Real Estate Leads Dashboard
+                  </h1>
+                  <p
+                    className={`text-sm transition-colors duration-200 ${
+                      isDarkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
+                    Professional Lead Management System
+                  </p>
+                </div>
               </div>
               <div className="flex items-center space-x-4">
+                {/* Dark Mode Toggle */}
+                <button
+                  onClick={toggleDarkMode}
+                  className={`p-3 rounded-xl transition-all duration-300 hover:scale-105 ${
+                    isDarkMode
+                      ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg shadow-yellow-500/25"
+                      : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 shadow-lg shadow-gray-500/25"
+                  }`}
+                  aria-label="Toggle dark mode"
+                >
+                  {isDarkMode ? (
+                    <Sun className="h-5 w-5" />
+                  ) : (
+                    <Moon className="h-5 w-5" />
+                  )}
+                </button>
+
                 <div className="flex items-center">
                   {getStatusButton()}
-                  <div className="ml-3 text-xs text-gray-500">
+                  <div
+                    className={`ml-3 text-xs transition-colors duration-200 ${
+                      isDarkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
                     Last checked: {formatLastChecked(apiStatus.lastChecked)}
                   </div>
                 </div>
@@ -1089,57 +1163,146 @@ function App() {
             </div>
 
             {/* Tab Navigation */}
-            <div className="border-b border-gray-200">
+            <div
+              className={`border-b transition-all duration-300 ${
+                isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+              }`}
+            >
               <nav className="-mb-px flex space-x-8">
                 <button
                   onClick={() => setActiveTab("cre")}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 px-4 border-b-2 font-medium text-sm transition-all duration-300 rounded-t-lg ${
                     activeTab === "cre"
-                      ? "border-blue-500 text-blue-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? "border-blue-500 text-blue-600 bg-blue-50 dark:bg-blue-900/20"
+                      : `border-transparent transition-all duration-300 hover:scale-105 ${
+                          isDarkMode
+                            ? "text-gray-400 hover:text-gray-200 hover:border-gray-500 hover:bg-gray-800/50"
+                            : "text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+                        }`
                   }`}
                 >
-                  SBA Leads ({totalItems || 0})
+                  <div className="flex items-center space-x-2">
+                    <span>SBA Leads</span>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full transition-all duration-300 ${
+                        activeTab === "cre"
+                          ? "bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-blue-300"
+                          : isDarkMode
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {totalItems || 0}
+                    </span>
+                  </div>
                 </button>
                 <button
                   onClick={() => setActiveTab("realtor")}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 px-4 border-b-2 font-medium text-sm transition-all duration-300 rounded-t-lg ${
                     activeTab === "realtor"
-                      ? "border-green-500 text-green-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? "border-green-500 text-green-600 bg-green-50 dark:bg-green-900/20"
+                      : `border-transparent transition-all duration-300 hover:scale-105 ${
+                          isDarkMode
+                            ? "text-gray-400 hover:text-gray-200 hover:border-gray-500 hover:bg-gray-800/50"
+                            : "text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+                        }`
                   }`}
                 >
-                  Realtor Leads ({totalRealtorItems || 0})
+                  <div className="flex items-center space-x-2">
+                    <span>Realtor Leads</span>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full transition-all duration-300 ${
+                        activeTab === "realtor"
+                          ? "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-300"
+                          : isDarkMode
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {totalRealtorItems || 0}
+                    </span>
+                  </div>
                 </button>
                 <button
                   onClick={() => setActiveTab("loanOfficer")}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 px-4 border-b-2 font-medium text-sm transition-all duration-300 rounded-t-lg ${
                     activeTab === "loanOfficer"
-                      ? "border-purple-500 text-purple-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? "border-purple-500 text-purple-600 bg-purple-50 dark:bg-purple-900/20"
+                      : `border-transparent transition-all duration-300 hover:scale-105 ${
+                          isDarkMode
+                            ? "text-gray-400 hover:text-gray-200 hover:border-gray-500 hover:bg-gray-800/50"
+                            : "text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+                        }`
                   }`}
                 >
-                  Loan Officer Leads ({totalLoanOfficerItems || 0})
+                  <div className="flex items-center space-x-2">
+                    <span>Loan Officer Leads</span>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full transition-all duration-300 ${
+                        activeTab === "loanOfficer"
+                          ? "bg-purple-100 text-purple-700 dark:bg-purple-800 dark:text-purple-300"
+                          : isDarkMode
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {totalLoanOfficerItems || 0}
+                    </span>
+                  </div>
                 </button>
                 <button
                   onClick={() => setActiveTab("commercialBankers")}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 px-4 border-b-2 font-medium text-sm transition-all duration-300 rounded-t-lg ${
                     activeTab === "commercialBankers"
-                      ? "border-orange-500 text-orange-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? "border-orange-500 text-orange-600 bg-orange-50 dark:bg-orange-900/20"
+                      : `border-transparent transition-all duration-300 hover:scale-105 ${
+                          isDarkMode
+                            ? "text-gray-400 hover:text-gray-200 hover:border-gray-500 hover:bg-gray-800/50"
+                            : "text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+                        }`
                   }`}
                 >
-                  Commercial Bankers ({totalCommercialBankersItems || 0})
+                  <div className="flex items-center space-x-2">
+                    <span>Commercial Bankers</span>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full transition-all duration-300 ${
+                        activeTab === "commercialBankers"
+                          ? "bg-orange-100 text-orange-700 dark:bg-orange-800 dark:text-orange-300"
+                          : isDarkMode
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {totalCommercialBankersItems || 0}
+                    </span>
+                  </div>
                 </button>
                 <button
                   onClick={() => setActiveTab("residentialRealtors")}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 px-4 border-b-2 font-medium text-sm transition-all duration-300 rounded-t-lg ${
                     activeTab === "residentialRealtors"
-                      ? "border-teal-500 text-teal-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? "border-teal-500 text-teal-600 bg-teal-50 dark:bg-teal-900/20"
+                      : `border-transparent transition-all duration-300 hover:scale-105 ${
+                          isDarkMode
+                            ? "text-gray-400 hover:text-gray-200 hover:border-gray-500 hover:bg-gray-800/50"
+                            : "text-gray-500 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+                        }`
                   }`}
                 >
-                  Residential Realtors ({totalResidentialRealtorsItems || 0})
+                  <div className="flex items-center space-x-2">
+                    <span>Residential Realtors</span>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full transition-all duration-300 ${
+                        activeTab === "residentialRealtors"
+                          ? "bg-teal-100 text-teal-700 dark:bg-teal-800 dark:text-teal-300"
+                          : isDarkMode
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {totalResidentialRealtorsItems || 0}
+                    </span>
+                  </div>
                 </button>
               </nav>
             </div>
@@ -1152,12 +1315,30 @@ function App() {
       <SignedIn>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {activeTab === "cre" && (
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  CRE Leads
+            <div
+              className={`rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-gray-800/95 border border-gray-700/50"
+                  : "bg-white/95 border border-gray-200/50"
+              }`}
+            >
+              <div
+                className={`px-8 py-6 border-b transition-all duration-300 ${
+                  isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+                }`}
+              >
+                <h2
+                  className={`text-xl font-semibold transition-colors duration-200 ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Leads
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p
+                  className={`text-sm transition-colors duration-200 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   Total: {totalItems || 0} leads
                 </p>
               </div>
@@ -1168,7 +1349,9 @@ function App() {
                     <div className="flex-1">
                       <label
                         htmlFor="cre-search"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Search by Name, Email, or Phone
                       </label>
@@ -1182,14 +1365,20 @@ function App() {
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                           placeholder="Search leads..."
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gray-700/50 border-gray-600/50 text-white placeholder-gray-400 backdrop-blur-sm"
+                              : "border-gray-300/50 bg-white/50 text-gray-900 placeholder-gray-500 backdrop-blur-sm"
+                          }`}
                         />
                       </div>
                     </div>
                     <div className="sm:w-48">
                       <label
                         htmlFor="cre-outreach-filter"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Outreach Status
                       </label>
@@ -1201,7 +1390,11 @@ function App() {
                             e.target.value as "all" | "running" | "stopped"
                           )
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
                       >
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
@@ -1211,19 +1404,54 @@ function App() {
                   </div>
                 </div>
                 {creLeads.isLoading ? (
-                  <div className="flex justify-center items-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                    <span className="ml-2 text-gray-600">
-                      Loading CRE leads...
+                  <div className="flex flex-col justify-center items-center py-12">
+                    <div className="relative">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div>
+                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-400 animate-pulse"></div>
+                    </div>
+                    <span
+                      className={`mt-4 text-lg font-medium transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
+                      Loading SBA leads...
                     </span>
+                    <p
+                      className={`mt-2 text-sm transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-500" : "text-gray-600"
+                      }`}
+                    >
+                      Please wait while we fetch your data
+                    </p>
                   </div>
                 ) : creLeads.error ? (
-                  <div className="text-center py-8">
-                    <p className="text-red-600 mb-4">{creLeads.error}</p>
+                  <div className="text-center py-12">
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                        isDarkMode ? "bg-red-900/20" : "bg-red-100"
+                      }`}
+                    >
+                      <AlertCircle className="h-8 w-8 text-red-500" />
+                    </div>
+                    <h3
+                      className={`text-lg font-semibold mb-2 transition-colors duration-200 ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      Error Loading Data
+                    </h3>
+                    <p
+                      className={`text-red-500 mb-6 transition-colors duration-200 ${
+                        isDarkMode ? "text-red-400" : "text-red-600"
+                      }`}
+                    >
+                      {creLeads.error}
+                    </p>
                     <button
                       onClick={fetchCRELeads}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                      className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
+                      <RefreshCw className="inline w-4 h-4 mr-2" />
                       Retry
                     </button>
                   </div>
