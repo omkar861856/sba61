@@ -1036,34 +1036,61 @@ function App() {
   const getStatusBadge = (status: string) => {
     if (!status) {
       return (
-        <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+        <span
+          className={`px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+            isDarkMode
+              ? "bg-gray-700/50 text-gray-400 border border-gray-600/50"
+              : "bg-gray-100 text-gray-600"
+          }`}
+        >
           No Status
         </span>
       );
     }
 
     return (
-      <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+      <span
+        className={`px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+          isDarkMode
+            ? "bg-gradient-to-r from-blue-600/20 to-blue-700/20 text-blue-300 border border-blue-500/50"
+            : "bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800"
+        }`}
+      >
         {status}
       </span>
     );
   };
 
   const getTouchpointBadge = (touchpoint: number) => {
-    const colors = [
-      "bg-green-100 text-green-800",
-      "bg-yellow-100 text-yellow-800",
-      "bg-orange-100 text-orange-800",
-      "bg-red-100 text-red-800",
+    const darkColors = [
+      "bg-gradient-to-r from-green-600/20 to-green-700/20 text-green-300 border border-green-500/50",
+      "bg-gradient-to-r from-yellow-600/20 to-yellow-700/20 text-yellow-300 border border-yellow-500/50",
+      "bg-gradient-to-r from-orange-600/20 to-orange-700/20 text-orange-300 border border-orange-500/50",
+      "bg-gradient-to-r from-red-600/20 to-red-700/20 text-red-300 border border-red-500/50",
     ];
 
-    const colorIndex = Math.min(touchpoint - 1, colors.length - 1);
-    const colorClass =
-      touchpoint > 0 ? colors[colorIndex] : "bg-gray-100 text-gray-600";
+    const lightColors = [
+      "bg-gradient-to-r from-green-100 to-green-200 text-green-800",
+      "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800",
+      "bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800",
+      "bg-gradient-to-r from-red-100 to-red-200 text-red-800",
+    ];
+
+    const colorIndex = Math.min(touchpoint - 1, darkColors.length - 1);
+    const darkColorClass =
+      touchpoint > 0
+        ? darkColors[colorIndex]
+        : isDarkMode
+        ? "bg-gray-700/50 text-gray-400 border border-gray-600/50"
+        : "bg-gray-100 text-gray-600";
+    const lightColorClass =
+      touchpoint > 0 ? lightColors[colorIndex] : "bg-gray-100 text-gray-600";
 
     return (
       <span
-        className={`px-2 py-1 text-xs font-medium rounded-full ${colorClass}`}
+        className={`px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+          isDarkMode ? darkColorClass : lightColorClass
+        }`}
       >
         Touch {touchpoint}
       </span>
@@ -1458,64 +1485,148 @@ function App() {
                 ) : (
                   <>
                     <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                      <table
+                        className={`min-w-full divide-y transition-all duration-300 ${
+                          isDarkMode ? "divide-gray-700/50" : "divide-gray-200"
+                        }`}
+                      >
+                        <thead
+                          className={`transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm border-b border-gray-700/50"
+                              : "bg-gradient-to-r from-gray-50 to-white border-b border-gray-200"
+                          }`}
+                        >
                           <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Organization
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Industry
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact Info
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Status
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Next Touch
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Actions
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody
+                          className={`divide-y transition-all duration-300 ${
+                            isDarkMode
+                              ? "divide-gray-700/30"
+                              : "divide-gray-200"
+                          }`}
+                        >
                           {currentLeads.map((lead, index) => (
                             <tr
                               key={lead.row_number}
-                              className={`hover:bg-gray-50 transition-colors ${
+                              className={`transition-all duration-300 hover:scale-[1.01] ${
                                 lead["Stop outreach"]
-                                  ? "bg-red-50 hover:bg-red-100"
-                                  : ""
+                                  ? isDarkMode
+                                    ? "bg-red-900/10 hover:bg-red-900/20 border-l-4 border-red-500/50"
+                                    : "bg-red-50 hover:bg-red-100 border-l-4 border-red-500"
+                                  : isDarkMode
+                                  ? "bg-gray-800/30 hover:bg-gray-700/50 hover:shadow-lg hover:shadow-gray-900/20"
+                                  : "bg-white hover:bg-gray-50 hover:shadow-md"
                               }`}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                                      <span className="text-white font-medium text-sm">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <div
+                                      className={`h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "shadow-blue-500/25"
+                                          : "shadow-blue-500/20"
+                                      }`}
+                                    >
+                                      <span className="text-white font-semibold text-sm">
                                         {lead.FirstName.charAt(0)}
                                         {lead.LastName.charAt(0)}
                                       </span>
                                     </div>
                                   </div>
                                   <div className="ml-4">
-                                    <div className="text-sm font-medium text-gray-900">
+                                    <div
+                                      className={`text-sm font-semibold transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-white"
+                                          : "text-gray-900"
+                                      }`}
+                                    >
                                       {lead.FirstName} {lead.LastName}
                                     </div>
-                                    <div className="text-sm text-gray-500 max-w-xs truncate">
+                                    <div
+                                      className={`text-sm transition-colors duration-200 max-w-xs truncate ${
+                                        isDarkMode
+                                          ? "text-gray-400"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       {lead.Title}
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
+                                <div
+                                  className={`text-sm font-medium transition-colors duration-200 max-w-xs truncate ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   {lead.Organization}
                                 </div>
                                 {lead.OrganizationSite && (
@@ -1523,7 +1634,11 @@ function App() {
                                     href={lead.OrganizationSite}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm text-blue-600 hover:text-blue-800 flex items-center mt-1"
+                                    className={`text-sm flex items-center mt-2 transition-all duration-300 hover:scale-105 ${
+                                      isDarkMode
+                                        ? "text-blue-400 hover:text-blue-300"
+                                        : "text-blue-600 hover:text-blue-800"
+                                    }`}
                                   >
                                     <ExternalLink className="w-3 h-3 mr-1" />
                                     Website
@@ -1531,18 +1646,34 @@ function App() {
                                 )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-flex px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full capitalize">
+                                <span
+                                  className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full capitalize transition-all duration-300 ${
+                                    isDarkMode
+                                      ? "bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                                      : "bg-gray-100 text-gray-800"
+                                  }`}
+                                >
                                   {lead.Industry || "N/A"}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <div className="space-y-1">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                <div className="space-y-2">
                                   {lead.Email && (
                                     <div className="flex items-center">
-                                      <Mail className="w-3 h-3 mr-2 text-gray-400" />
+                                      <Mail
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
                                       <a
                                         href={`mailto:${lead.Email}`}
-                                        className="text-blue-600 hover:text-blue-800 truncate max-w-xs"
+                                        className={`truncate max-w-xs transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-blue-400 hover:text-blue-300"
+                                            : "text-blue-600 hover:text-blue-800"
+                                        }`}
                                       >
                                         {lead.Email}
                                       </a>
@@ -1550,10 +1681,20 @@ function App() {
                                   )}
                                   {lead.Phone && (
                                     <div className="flex items-center">
-                                      <Phone className="w-3 h-3 mr-2 text-gray-400" />
+                                      <Phone
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
                                       <a
                                         href={`tel:${lead.Phone}`}
-                                        className="text-blue-600 hover:text-blue-800"
+                                        className={`transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-blue-400 hover:text-blue-300"
+                                            : "text-blue-600 hover:text-blue-800"
+                                        }`}
                                       >
                                         {formatPhone(lead.Phone)}
                                       </a>
@@ -1566,20 +1707,42 @@ function App() {
                                   {getStatusBadge(lead.STATUS)}
                                   {getTouchpointBadge(lead.TOUCHPOINT)}
                                   {lead["Stop outreach"] && (
-                                    <span className="inline-flex px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                                    <span
+                                      className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+                                        isDarkMode
+                                          ? "bg-red-900/30 text-red-300 border border-red-700/50"
+                                          : "bg-red-100 text-red-800"
+                                      }`}
+                                    >
                                       Stop Outreach
                                     </span>
                                   )}
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
+                                <div
+                                  className={`text-sm transition-colors duration-200 ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   <div className="flex items-center">
-                                    <Calendar className="w-3 h-3 mr-2 text-gray-400" />
+                                    <Calendar
+                                      className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-400"
+                                      }`}
+                                    />
                                     {formatDate(lead.NEXT_TOUCH_DATE)}
                                   </div>
                                   {lead.LAST_TOUCH && (
-                                    <div className="text-xs text-gray-500 mt-1">
+                                    <div
+                                      className={`text-xs mt-1 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       Last: {formatDate(lead.LAST_TOUCH)}
                                     </div>
                                   )}
@@ -1592,7 +1755,11 @@ function App() {
                                       href={lead.LinkedIn}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-blue-600 hover:text-blue-900 transition-colors"
+                                      className={`transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "text-blue-400 hover:text-blue-300"
+                                          : "text-blue-600 hover:text-blue-900"
+                                      }`}
                                       title="View LinkedIn Profile"
                                     >
                                       <ExternalLink className="w-4 h-4" />
@@ -1602,7 +1769,11 @@ function App() {
                                   {/* Stop Outreach Button */}
                                   {lead["Stop outreach"] ? (
                                     <div
-                                      className="flex items-center text-red-600"
+                                      className={`flex items-center transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-red-400"
+                                          : "text-red-600"
+                                      }`}
                                       title="Outreach stopped"
                                     >
                                       <StopCircle className="w-4 h-4 mr-1" />
@@ -1623,7 +1794,11 @@ function App() {
                                           stoppingOutreach.has(lead.Email) ||
                                           !lead.Email
                                         }
-                                        className="flex items-center px-2 py-1 text-xs font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className={`flex items-center px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                          isDarkMode
+                                            ? "text-red-400 hover:text-red-300 hover:bg-red-900/20 border border-red-700/50"
+                                            : "text-red-600 hover:text-red-800 hover:bg-red-50 border border-red-200"
+                                        }`}
                                         title={
                                           !lead.Email
                                             ? "No email available"
@@ -1643,9 +1818,21 @@ function App() {
                                         )}
                                       </button>
                                       {!lead.Email && (
-                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                        <div
+                                          className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-10 ${
+                                            isDarkMode
+                                              ? "text-white bg-gray-800 border border-gray-700"
+                                              : "text-white bg-gray-900"
+                                          }`}
+                                        >
                                           No email available
-                                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                                          <div
+                                            className={`absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent ${
+                                              isDarkMode
+                                                ? "border-t-gray-800"
+                                                : "border-t-gray-900"
+                                            }`}
+                                          ></div>
                                         </div>
                                       )}
                                     </div>
@@ -1660,20 +1847,44 @@ function App() {
 
                     {/* CRE Pagination */}
                     {totalItems > 0 && (
-                      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                      <div
+                        className={`px-6 py-6 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-t border-gray-700/50 backdrop-blur-sm"
+                            : "bg-gradient-to-r from-gray-50 to-white border-t border-gray-200"
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-gray-700">
+                          <div
+                            className={`flex items-center text-sm transition-colors duration-200 ${
+                              isDarkMode ? "text-gray-300" : "text-gray-700"
+                            }`}
+                          >
                             <span>
                               Showing{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {startIndex + 1}
                               </span>{" "}
                               to{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {Math.min(endIndex, totalItems)}
                               </span>{" "}
                               of{" "}
-                              <span className="font-medium">{totalItems}</span>{" "}
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
+                                {totalItems}
+                              </span>{" "}
                               results
                             </span>
                           </div>
@@ -1683,7 +1894,11 @@ function App() {
                               <button
                                 onClick={goToPrevious}
                                 disabled={currentPage === 1}
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                 Previous
@@ -1709,9 +1924,13 @@ function App() {
                                       <button
                                         key={pageNum}
                                         onClick={() => goToPage(pageNum)}
-                                        className={`px-3 py-1 text-sm font-medium rounded-lg transition-colors ${
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
                                           currentPage === pageNum
-                                            ? "bg-blue-600 text-white"
+                                            ? isDarkMode
+                                              ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25"
+                                              : "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25"
+                                            : isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
                                             : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
                                         }`}
                                       >
@@ -1724,10 +1943,22 @@ function App() {
                                 {totalPages > 5 &&
                                   currentPage < totalPages - 2 && (
                                     <>
-                                      <span className="text-gray-500">...</span>
+                                      <span
+                                        className={`text-sm transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-500"
+                                        }`}
+                                      >
+                                        ...
+                                      </span>
                                       <button
                                         onClick={() => goToPage(totalPages)}
-                                        className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                            : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+                                        }`}
                                       >
                                         {totalPages}
                                       </button>
@@ -1738,7 +1969,11 @@ function App() {
                               <button
                                 onClick={goToNext}
                                 disabled={currentPage === totalPages}
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 Next
                                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -1755,12 +1990,30 @@ function App() {
           )}
 
           {activeTab === "realtor" && (
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+            <div
+              className={`rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-gray-800/95 border border-gray-700/50"
+                  : "bg-white/95 border border-gray-200/50"
+              }`}
+            >
+              <div
+                className={`px-8 py-6 border-b transition-all duration-300 ${
+                  isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+                }`}
+              >
+                <h2
+                  className={`text-xl font-semibold transition-colors duration-200 ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   Realtor Leads
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p
+                  className={`text-sm transition-colors duration-200 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   Total: {totalRealtorItems || 0} leads
                 </p>
               </div>
@@ -1771,7 +2024,9 @@ function App() {
                     <div className="flex-1">
                       <label
                         htmlFor="realtor-search"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Search by Name, Email, or Phone
                       </label>
@@ -1785,14 +2040,20 @@ function App() {
                           value={realtorSearchTerm}
                           onChange={(e) => setRealtorSearchTerm(e.target.value)}
                           placeholder="Search leads..."
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                          className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gray-700/50 border-gray-600/50 text-white placeholder-gray-400 backdrop-blur-sm"
+                              : "border-gray-300/50 bg-white/50 text-gray-900 placeholder-gray-500 backdrop-blur-sm"
+                          }`}
                         />
                       </div>
                     </div>
                     <div className="sm:w-48">
                       <label
                         htmlFor="realtor-outreach-filter"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Outreach Status
                       </label>
@@ -1804,7 +2065,11 @@ function App() {
                             e.target.value as "all" | "running" | "stopped"
                           )
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
                       >
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
@@ -1814,83 +2079,202 @@ function App() {
                   </div>
                 </div>
                 {realtorLeads.isLoading ? (
-                  <div className="flex justify-center items-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
-                    <span className="ml-2 text-gray-600">
+                  <div className="flex flex-col justify-center items-center py-12">
+                    <div className="relative">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-200 border-t-green-600"></div>
+                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-green-400 animate-pulse"></div>
+                    </div>
+                    <span
+                      className={`mt-4 text-lg font-medium transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
                       Loading Realtor leads...
                     </span>
+                    <p
+                      className={`mt-2 text-sm transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-500" : "text-gray-600"
+                      }`}
+                    >
+                      Please wait while we fetch your data
+                    </p>
                   </div>
                 ) : realtorLeads.error ? (
-                  <div className="text-center py-8">
-                    <p className="text-red-600 mb-4">{realtorLeads.error}</p>
+                  <div className="text-center py-12">
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                        isDarkMode ? "bg-red-900/20" : "bg-red-100"
+                      }`}
+                    >
+                      <AlertCircle className="h-8 w-8 text-red-500" />
+                    </div>
+                    <h3
+                      className={`text-lg font-semibold mb-2 transition-colors duration-200 ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      Error Loading Data
+                    </h3>
+                    <p
+                      className={`text-red-500 mb-6 transition-colors duration-200 ${
+                        isDarkMode ? "text-red-400" : "text-red-600"
+                      }`}
+                    >
+                      {realtorLeads.error}
+                    </p>
                     <button
                       onClick={fetchRealtorLeads}
-                      className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
+                      <RefreshCw className="inline w-4 h-4 mr-2" />
                       Retry
                     </button>
                   </div>
                 ) : (
                   <>
                     <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                      <table
+                        className={`min-w-full divide-y transition-all duration-300 ${
+                          isDarkMode ? "divide-gray-700/50" : "divide-gray-200"
+                        }`}
+                      >
+                        <thead
+                          className={`transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm border-b border-gray-700/50"
+                              : "bg-gradient-to-r from-gray-50 to-white border-b border-gray-200"
+                          }`}
+                        >
                           <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Organization
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Industry
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact Info
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Status
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Next Touch
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Actions
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody
+                          className={`divide-y transition-all duration-300 ${
+                            isDarkMode
+                              ? "divide-gray-700/30"
+                              : "divide-gray-200"
+                          }`}
+                        >
                           {currentRealtorLeads.map((lead, index) => (
                             <tr
                               key={lead.row_number}
-                              className={`hover:bg-gray-50 transition-colors ${
+                              className={`transition-all duration-300 hover:scale-[1.01] ${
                                 lead["Stop outreach"]
-                                  ? "bg-red-50 hover:bg-red-100"
-                                  : ""
+                                  ? isDarkMode
+                                    ? "bg-red-900/10 hover:bg-red-900/20 border-l-4 border-red-500/50"
+                                    : "bg-red-50 hover:bg-red-100 border-l-4 border-red-500"
+                                  : isDarkMode
+                                  ? "bg-gray-800/30 hover:bg-gray-700/50 hover:shadow-lg hover:shadow-gray-900/20"
+                                  : "bg-white hover:bg-gray-50 hover:shadow-md"
                               }`}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
-                                      <span className="text-white font-medium text-sm">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <div
+                                      className={`h-12 w-12 rounded-xl bg-gradient-to-br from-green-500 via-emerald-600 to-teal-700 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "shadow-green-500/25"
+                                          : "shadow-green-500/20"
+                                      }`}
+                                    >
+                                      <span className="text-white font-semibold text-sm">
                                         {lead.FirstName.charAt(0)}
                                         {lead.LastName.charAt(0)}
                                       </span>
                                     </div>
                                   </div>
                                   <div className="ml-4">
-                                    <div className="text-sm font-medium text-gray-900">
+                                    <div
+                                      className={`text-sm font-semibold transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-white"
+                                          : "text-gray-900"
+                                      }`}
+                                    >
                                       {lead.FirstName} {lead.LastName}
                                     </div>
-                                    <div className="text-sm text-gray-500 max-w-xs truncate">
+                                    <div
+                                      className={`text-sm transition-colors duration-200 max-w-xs truncate ${
+                                        isDarkMode
+                                          ? "text-gray-400"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       {lead.Title}
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
+                                <div
+                                  className={`text-sm font-medium transition-colors duration-200 max-w-xs truncate ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   {lead.Organization}
                                 </div>
                                 {lead.OrganizationSite && (
@@ -1898,7 +2282,11 @@ function App() {
                                     href={lead.OrganizationSite}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm text-green-600 hover:text-green-800 flex items-center mt-1"
+                                    className={`text-sm flex items-center mt-2 transition-all duration-300 hover:scale-105 ${
+                                      isDarkMode
+                                        ? "text-green-400 hover:text-green-300"
+                                        : "text-green-600 hover:text-green-800"
+                                    }`}
                                   >
                                     <ExternalLink className="w-3 h-3 mr-1" />
                                     Website
@@ -1906,18 +2294,34 @@ function App() {
                                 )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-flex px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full capitalize">
+                                <span
+                                  className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full capitalize transition-all duration-300 ${
+                                    isDarkMode
+                                      ? "bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                                      : "bg-gray-100 text-gray-800"
+                                  }`}
+                                >
                                   {lead.Industry || "N/A"}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <div className="space-y-1">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                <div className="space-y-2">
                                   {lead.Email && (
                                     <div className="flex items-center">
-                                      <Mail className="w-3 h-3 mr-2 text-gray-400" />
+                                      <Mail
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
                                       <a
                                         href={`mailto:${lead.Email}`}
-                                        className="text-green-600 hover:text-green-800 truncate max-w-xs"
+                                        className={`truncate max-w-xs transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-green-400 hover:text-green-300"
+                                            : "text-green-600 hover:text-green-800"
+                                        }`}
                                       >
                                         {lead.Email}
                                       </a>
@@ -1925,10 +2329,20 @@ function App() {
                                   )}
                                   {lead.Phone && (
                                     <div className="flex items-center">
-                                      <Phone className="w-3 h-3 mr-2 text-gray-400" />
+                                      <Phone
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
                                       <a
                                         href={`tel:${lead.Phone}`}
-                                        className="text-green-600 hover:text-green-800"
+                                        className={`transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-green-400 hover:text-green-300"
+                                            : "text-green-600 hover:text-green-800"
+                                        }`}
                                       >
                                         {formatPhone(lead.Phone)}
                                       </a>
@@ -1941,20 +2355,42 @@ function App() {
                                   {getStatusBadge(lead.STATUS)}
                                   {getTouchpointBadge(lead.TOUCHPOINT)}
                                   {lead["Stop outreach"] && (
-                                    <span className="inline-flex px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                                    <span
+                                      className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+                                        isDarkMode
+                                          ? "bg-red-900/30 text-red-300 border border-red-700/50"
+                                          : "bg-red-100 text-red-800"
+                                      }`}
+                                    >
                                       Stop Outreach
                                     </span>
                                   )}
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
+                                <div
+                                  className={`text-sm transition-colors duration-200 ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   <div className="flex items-center">
-                                    <Calendar className="w-3 h-3 mr-2 text-gray-400" />
+                                    <Calendar
+                                      className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-400"
+                                      }`}
+                                    />
                                     {formatDate(lead.NEXT_TOUCH_DATE)}
                                   </div>
                                   {lead.LAST_TOUCH && (
-                                    <div className="text-xs text-gray-500 mt-1">
+                                    <div
+                                      className={`text-xs mt-1 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       Last: {formatDate(lead.LAST_TOUCH)}
                                     </div>
                                   )}
@@ -1967,7 +2403,11 @@ function App() {
                                       href={lead.LinkedIn}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-green-600 hover:text-green-900 transition-colors"
+                                      className={`transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "text-green-400 hover:text-green-300"
+                                          : "text-green-600 hover:text-green-900"
+                                      }`}
                                       title="View LinkedIn Profile"
                                     >
                                       <ExternalLink className="w-4 h-4" />
@@ -1977,7 +2417,11 @@ function App() {
                                   {/* Stop Outreach Button */}
                                   {lead["Stop outreach"] ? (
                                     <div
-                                      className="flex items-center text-red-600"
+                                      className={`flex items-center transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-red-400"
+                                          : "text-red-600"
+                                      }`}
                                       title="Outreach stopped"
                                     >
                                       <StopCircle className="w-4 h-4 mr-1" />
@@ -1999,7 +2443,11 @@ function App() {
                                             lead.Email
                                           ) || !lead.Email
                                         }
-                                        className="flex items-center px-2 py-1 text-xs font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className={`flex items-center px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                          isDarkMode
+                                            ? "text-red-400 hover:text-red-300 hover:bg-red-900/20 border border-red-700/50"
+                                            : "text-red-600 hover:text-red-800 hover:bg-red-50 border border-red-200"
+                                        }`}
                                         title={
                                           !lead.Email
                                             ? "No email available"
@@ -2021,9 +2469,21 @@ function App() {
                                         )}
                                       </button>
                                       {!lead.Email && (
-                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                        <div
+                                          className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-10 ${
+                                            isDarkMode
+                                              ? "text-white bg-gray-800 border border-gray-700"
+                                              : "text-white bg-gray-900"
+                                          }`}
+                                        >
                                           No email available
-                                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                                          <div
+                                            className={`absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent ${
+                                              isDarkMode
+                                                ? "border-t-gray-800"
+                                                : "border-t-gray-900"
+                                            }`}
+                                          ></div>
                                         </div>
                                       )}
                                     </div>
@@ -2038,20 +2498,42 @@ function App() {
 
                     {/* Realtor Pagination */}
                     {totalRealtorItems > 0 && (
-                      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                      <div
+                        className={`px-6 py-6 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-t border-gray-700/50 backdrop-blur-sm"
+                            : "bg-gradient-to-r from-gray-50 to-white border-t border-gray-200"
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-gray-700">
+                          <div
+                            className={`flex items-center text-sm transition-colors duration-200 ${
+                              isDarkMode ? "text-gray-300" : "text-gray-700"
+                            }`}
+                          >
                             <span>
                               Showing{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {startRealtorIndex + 1}
                               </span>{" "}
                               to{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {Math.min(endRealtorIndex, totalRealtorItems)}
                               </span>{" "}
                               of{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {totalRealtorItems}
                               </span>{" "}
                               results
@@ -2063,7 +2545,11 @@ function App() {
                               <button
                                 onClick={goToRealtorPrevious}
                                 disabled={currentRealtorPage === 1}
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                 Previous
@@ -2092,9 +2578,13 @@ function App() {
                                       <button
                                         key={pageNum}
                                         onClick={() => goToRealtorPage(pageNum)}
-                                        className={`px-3 py-1 text-sm font-medium rounded-lg transition-colors ${
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
                                           currentRealtorPage === pageNum
-                                            ? "bg-green-600 text-white"
+                                            ? isDarkMode
+                                              ? "bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/25"
+                                              : "bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/25"
+                                            : isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
                                             : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
                                         }`}
                                       >
@@ -2108,12 +2598,24 @@ function App() {
                                   currentRealtorPage <
                                     totalRealtorPages - 2 && (
                                     <>
-                                      <span className="text-gray-500">...</span>
+                                      <span
+                                        className={`text-sm transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-500"
+                                        }`}
+                                      >
+                                        ...
+                                      </span>
                                       <button
                                         onClick={() =>
                                           goToRealtorPage(totalRealtorPages)
                                         }
-                                        className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                            : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+                                        }`}
                                       >
                                         {totalRealtorPages}
                                       </button>
@@ -2126,7 +2628,11 @@ function App() {
                                 disabled={
                                   currentRealtorPage === totalRealtorPages
                                 }
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 Next
                                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -2143,12 +2649,30 @@ function App() {
           )}
 
           {activeTab === "loanOfficer" && (
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+            <div
+              className={`rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-gray-800/95 border border-gray-700/50"
+                  : "bg-white/95 border border-gray-200/50"
+              }`}
+            >
+              <div
+                className={`px-8 py-6 border-b transition-all duration-300 ${
+                  isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+                }`}
+              >
+                <h2
+                  className={`text-xl font-semibold transition-colors duration-200 ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   Loan Officer Leads
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p
+                  className={`text-sm transition-colors duration-200 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   Total: {totalLoanOfficerItems || 0} leads
                 </p>
               </div>
@@ -2159,7 +2683,9 @@ function App() {
                     <div className="flex-1">
                       <label
                         htmlFor="loan-officer-search"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Search by Name, Email, or Phone
                       </label>
@@ -2175,14 +2701,20 @@ function App() {
                             setLoanOfficerSearchTerm(e.target.value)
                           }
                           placeholder="Search leads..."
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                          className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gray-700/50 border-gray-600/50 text-white placeholder-gray-400 backdrop-blur-sm"
+                              : "border-gray-300/50 bg-white/50 text-gray-900 placeholder-gray-500 backdrop-blur-sm"
+                          }`}
                         />
                       </div>
                     </div>
                     <div className="sm:w-48">
                       <label
                         htmlFor="loan-officer-outreach-filter"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Outreach Status
                       </label>
@@ -2194,7 +2726,11 @@ function App() {
                             e.target.value as "all" | "running" | "stopped"
                           )
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
                       >
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
@@ -2204,85 +2740,202 @@ function App() {
                   </div>
                 </div>
                 {loanOfficerLeads.isLoading ? (
-                  <div className="flex justify-center items-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-                    <span className="ml-2 text-gray-600">
+                  <div className="flex flex-col justify-center items-center py-12">
+                    <div className="relative">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600"></div>
+                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-purple-400 animate-pulse"></div>
+                    </div>
+                    <span
+                      className={`mt-4 text-lg font-medium transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
                       Loading Loan Officer leads...
                     </span>
+                    <p
+                      className={`mt-2 text-sm transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-500" : "text-gray-600"
+                      }`}
+                    >
+                      Please wait while we fetch your data
+                    </p>
                   </div>
                 ) : loanOfficerLeads.error ? (
-                  <div className="text-center py-8">
-                    <p className="text-red-600 mb-4">
+                  <div className="text-center py-12">
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                        isDarkMode ? "bg-red-900/20" : "bg-red-100"
+                      }`}
+                    >
+                      <AlertCircle className="h-8 w-8 text-red-500" />
+                    </div>
+                    <h3
+                      className={`text-lg font-semibold mb-2 transition-colors duration-200 ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      Error Loading Data
+                    </h3>
+                    <p
+                      className={`text-red-500 mb-6 transition-colors duration-200 ${
+                        isDarkMode ? "text-red-400" : "text-red-600"
+                      }`}
+                    >
                       {loanOfficerLeads.error}
                     </p>
                     <button
                       onClick={fetchLoanOfficerLeads}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+                      className="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
+                      <RefreshCw className="inline w-4 h-4 mr-2" />
                       Retry
                     </button>
                   </div>
                 ) : (
                   <>
                     <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                      <table
+                        className={`min-w-full divide-y transition-all duration-300 ${
+                          isDarkMode ? "divide-gray-700/50" : "divide-gray-200"
+                        }`}
+                      >
+                        <thead
+                          className={`transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm border-b border-gray-700/50"
+                              : "bg-gradient-to-r from-gray-50 to-white border-b border-gray-200"
+                          }`}
+                        >
                           <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Organization
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Industry
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact Info
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Status
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Next Touch
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Actions
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {currentLoanOfficerLeads.map((lead, index) => (
+                        <tbody
+                          className={`divide-y transition-all duration-300 ${
+                            isDarkMode
+                              ? "divide-gray-700/30"
+                              : "divide-gray-200"
+                          }`}
+                        >
+                          {currentLoanOfficerLeads.map((lead) => (
                             <tr
                               key={lead.row_number}
-                              className={`hover:bg-gray-50 transition-colors ${
+                              className={`transition-all duration-300 hover:scale-[1.01] ${
                                 lead["Stop outreach"]
-                                  ? "bg-red-50 hover:bg-red-100"
-                                  : ""
+                                  ? isDarkMode
+                                    ? "bg-red-900/10 hover:bg-red-900/20 border-l-4 border-red-500/50"
+                                    : "bg-red-50 hover:bg-red-100 border-l-4 border-red-500"
+                                  : isDarkMode
+                                  ? "bg-gray-800/30 hover:bg-gray-700/50 hover:shadow-lg hover:shadow-gray-900/20"
+                                  : "bg-white hover:bg-gray-50 hover:shadow-md"
                               }`}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center">
-                                      <span className="text-white font-medium text-sm">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <div
+                                      className={`h-12 w-12 rounded-xl bg-gradient-to-br from-purple-500 via-violet-600 to-indigo-700 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "shadow-purple-500/25"
+                                          : "shadow-purple-500/20"
+                                      }`}
+                                    >
+                                      <span className="text-white font-semibold text-sm">
                                         {lead.FirstName.charAt(0)}
                                         {lead.LastName.charAt(0)}
                                       </span>
                                     </div>
                                   </div>
                                   <div className="ml-4">
-                                    <div className="text-sm font-medium text-gray-900">
+                                    <div
+                                      className={`text-sm font-semibold transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-white"
+                                          : "text-gray-900"
+                                      }`}
+                                    >
                                       {lead.FirstName} {lead.LastName}
                                     </div>
-                                    <div className="text-sm text-gray-500 max-w-xs truncate">
+                                    <div
+                                      className={`text-sm transition-colors duration-200 max-w-xs truncate ${
+                                        isDarkMode
+                                          ? "text-gray-400"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       {lead.Title}
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
+                                <div
+                                  className={`text-sm font-medium transition-colors duration-200 max-w-xs truncate ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   {lead.Organization}
                                 </div>
                                 {lead.OrganizationSite && (
@@ -2290,7 +2943,11 @@ function App() {
                                     href={lead.OrganizationSite}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm text-purple-600 hover:text-purple-800 flex items-center mt-1"
+                                    className={`text-sm flex items-center mt-2 transition-all duration-300 hover:scale-105 ${
+                                      isDarkMode
+                                        ? "text-purple-400 hover:text-purple-300"
+                                        : "text-purple-600 hover:text-purple-800"
+                                    }`}
                                   >
                                     <ExternalLink className="w-3 h-3 mr-1" />
                                     Website
@@ -2298,18 +2955,34 @@ function App() {
                                 )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-flex px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full capitalize">
+                                <span
+                                  className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full capitalize transition-all duration-300 ${
+                                    isDarkMode
+                                      ? "bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                                      : "bg-gray-100 text-gray-800"
+                                  }`}
+                                >
                                   {lead.Industry || "N/A"}
                                 </span>
                               </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <div className="space-y-1">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                <div className="space-y-2">
                                   {lead.Email && (
                                     <div className="flex items-center">
-                                      <Mail className="w-3 h-3 mr-2 text-gray-400" />
+                                      <Mail
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
                                       <a
                                         href={`mailto:${lead.Email}`}
-                                        className="text-purple-600 hover:text-purple-800 truncate max-w-xs"
+                                        className={`truncate max-w-xs transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-purple-400 hover:text-purple-300"
+                                            : "text-purple-600 hover:text-purple-800"
+                                        }`}
                                       >
                                         {lead.Email}
                                       </a>
@@ -2317,10 +2990,20 @@ function App() {
                                   )}
                                   {lead.Phone && (
                                     <div className="flex items-center">
-                                      <Phone className="w-3 h-3 mr-2 text-gray-400" />
+                                      <Phone
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
                                       <a
                                         href={`tel:${lead.Phone}`}
-                                        className="text-purple-600 hover:text-purple-800"
+                                        className={`transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-purple-400 hover:text-purple-300"
+                                            : "text-purple-600 hover:text-purple-800"
+                                        }`}
                                       >
                                         {formatPhone(lead.Phone)}
                                       </a>
@@ -2333,20 +3016,42 @@ function App() {
                                   {getStatusBadge(lead.STATUS)}
                                   {getTouchpointBadge(lead.TOUCHPOINT)}
                                   {lead["Stop outreach"] && (
-                                    <span className="inline-flex px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                                    <span
+                                      className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+                                        isDarkMode
+                                          ? "bg-red-900/30 text-red-300 border border-red-700/50"
+                                          : "bg-red-100 text-red-800"
+                                      }`}
+                                    >
                                       Stop Outreach
                                     </span>
                                   )}
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
+                                <div
+                                  className={`text-sm transition-colors duration-200 ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   <div className="flex items-center">
-                                    <Calendar className="w-3 h-3 mr-2 text-gray-400" />
+                                    <Calendar
+                                      className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-400"
+                                      }`}
+                                    />
                                     {formatDate(lead.NEXT_TOUCH_DATE)}
                                   </div>
                                   {lead.LAST_TOUCH && (
-                                    <div className="text-xs text-gray-500 mt-1">
+                                    <div
+                                      className={`text-xs mt-1 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       Last: {formatDate(lead.LAST_TOUCH)}
                                     </div>
                                   )}
@@ -2359,7 +3064,11 @@ function App() {
                                       href={lead.LinkedIn}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-purple-600 hover:text-purple-900 transition-colors"
+                                      className={`transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "text-purple-400 hover:text-purple-300"
+                                          : "text-purple-600 hover:text-purple-900"
+                                      }`}
                                       title="View LinkedIn Profile"
                                     >
                                       <ExternalLink className="w-4 h-4" />
@@ -2369,7 +3078,11 @@ function App() {
                                   {/* Stop Outreach Button */}
                                   {lead["Stop outreach"] ? (
                                     <div
-                                      className="flex items-center text-red-600"
+                                      className={`flex items-center transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-red-400"
+                                          : "text-red-600"
+                                      }`}
                                       title="Outreach stopped"
                                     >
                                       <StopCircle className="w-4 h-4 mr-1" />
@@ -2391,7 +3104,11 @@ function App() {
                                             lead.Email
                                           ) || !lead.Email
                                         }
-                                        className="flex items-center px-2 py-1 text-xs font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className={`flex items-center px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                          isDarkMode
+                                            ? "text-red-400 hover:text-red-300 hover:bg-red-900/20 border border-red-700/50"
+                                            : "text-red-600 hover:text-red-800 hover:bg-red-50 border border-red-200"
+                                        }`}
                                         title={
                                           !lead.Email
                                             ? "No email available"
@@ -2413,9 +3130,21 @@ function App() {
                                         )}
                                       </button>
                                       {!lead.Email && (
-                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                        <div
+                                          className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-10 ${
+                                            isDarkMode
+                                              ? "text-white bg-gray-800 border border-gray-700"
+                                              : "text-white bg-gray-900"
+                                          }`}
+                                        >
                                           No email available
-                                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                                          <div
+                                            className={`absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent ${
+                                              isDarkMode
+                                                ? "border-t-gray-800"
+                                                : "border-t-gray-900"
+                                            }`}
+                                          ></div>
                                         </div>
                                       )}
                                     </div>
@@ -2430,23 +3159,45 @@ function App() {
 
                     {/* Loan Officer Pagination */}
                     {totalLoanOfficerItems > 0 && (
-                      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                      <div
+                        className={`px-6 py-6 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-t border-gray-700/50 backdrop-blur-sm"
+                            : "bg-gradient-to-r from-gray-50 to-white border-t border-gray-200"
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-gray-700">
+                          <div
+                            className={`flex items-center text-sm transition-colors duration-200 ${
+                              isDarkMode ? "text-gray-300" : "text-gray-700"
+                            }`}
+                          >
                             <span>
                               Showing{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {startLoanOfficerIndex + 1}
                               </span>{" "}
                               to{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {Math.min(
                                   endLoanOfficerIndex,
                                   totalLoanOfficerItems
                                 )}
                               </span>{" "}
                               of{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {totalLoanOfficerItems}
                               </span>{" "}
                               results
@@ -2458,7 +3209,11 @@ function App() {
                               <button
                                 onClick={goToLoanOfficerPrevious}
                                 disabled={currentLoanOfficerPage === 1}
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                 Previous
@@ -2491,9 +3246,13 @@ function App() {
                                         onClick={() =>
                                           goToLoanOfficerPage(pageNum)
                                         }
-                                        className={`px-3 py-1 text-sm font-medium rounded-lg transition-colors ${
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
                                           currentLoanOfficerPage === pageNum
-                                            ? "bg-purple-600 text-white"
+                                            ? isDarkMode
+                                              ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25"
+                                              : "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25"
+                                            : isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
                                             : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
                                         }`}
                                       >
@@ -2507,14 +3266,26 @@ function App() {
                                   currentLoanOfficerPage <
                                     totalLoanOfficerPages - 2 && (
                                     <>
-                                      <span className="text-gray-500">...</span>
+                                      <span
+                                        className={`text-sm transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-500"
+                                        }`}
+                                      >
+                                        ...
+                                      </span>
                                       <button
                                         onClick={() =>
                                           goToLoanOfficerPage(
                                             totalLoanOfficerPages
                                           )
                                         }
-                                        className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                            : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+                                        }`}
                                       >
                                         {totalLoanOfficerPages}
                                       </button>
@@ -2528,7 +3299,11 @@ function App() {
                                   currentLoanOfficerPage ===
                                   totalLoanOfficerPages
                                 }
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 Next
                                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -2545,12 +3320,30 @@ function App() {
           )}
 
           {activeTab === "commercialBankers" && (
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+            <div
+              className={`rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-gray-800/95 border border-gray-700/50"
+                  : "bg-white/95 border border-gray-200/50"
+              }`}
+            >
+              <div
+                className={`px-8 py-6 border-b transition-all duration-300 ${
+                  isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+                }`}
+              >
+                <h2
+                  className={`text-xl font-semibold transition-colors duration-200 ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   Commercial Bankers & Lenders
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p
+                  className={`text-sm transition-colors duration-200 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   Total: {totalCommercialBankersItems || 0} leads
                 </p>
               </div>
@@ -2561,7 +3354,9 @@ function App() {
                     <div className="flex-1">
                       <label
                         htmlFor="commercial-bankers-search"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Search by Name, Email, or Phone
                       </label>
@@ -2577,14 +3372,20 @@ function App() {
                             setCommercialBankersSearchTerm(e.target.value)
                           }
                           placeholder="Search leads..."
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                          className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gray-700/50 border-gray-600/50 text-white placeholder-gray-400 backdrop-blur-sm"
+                              : "border-gray-300/50 bg-white/50 text-gray-900 placeholder-gray-500 backdrop-blur-sm"
+                          }`}
                         />
                       </div>
                     </div>
                     <div className="sm:w-48">
                       <label
                         htmlFor="commercial-bankers-outreach-filter"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Outreach Status
                       </label>
@@ -2596,7 +3397,11 @@ function App() {
                             e.target.value as "all" | "running" | "stopped"
                           )
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
                       >
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
@@ -2607,85 +3412,202 @@ function App() {
                 </div>
 
                 {commercialBankersLeads.isLoading ? (
-                  <div className="flex justify-center items-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
-                    <span className="ml-2 text-gray-600">
+                  <div className="flex flex-col justify-center items-center py-12">
+                    <div className="relative">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-orange-200 border-t-orange-600"></div>
+                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-orange-400 animate-pulse"></div>
+                    </div>
+                    <span
+                      className={`mt-4 text-lg font-medium transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
                       Loading Commercial Bankers leads...
                     </span>
+                    <p
+                      className={`mt-2 text-sm transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-500" : "text-gray-600"
+                      }`}
+                    >
+                      Please wait while we fetch your data
+                    </p>
                   </div>
                 ) : commercialBankersLeads.error ? (
-                  <div className="text-center py-8">
-                    <p className="text-red-600 mb-4">
+                  <div className="text-center py-12">
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                        isDarkMode ? "bg-red-900/20" : "bg-red-100"
+                      }`}
+                    >
+                      <AlertCircle className="h-8 w-8 text-red-500" />
+                    </div>
+                    <h3
+                      className={`text-lg font-semibold mb-2 transition-colors duration-200 ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      Error Loading Data
+                    </h3>
+                    <p
+                      className={`text-red-500 mb-6 transition-colors duration-200 ${
+                        isDarkMode ? "text-red-400" : "text-red-600"
+                      }`}
+                    >
                       {commercialBankersLeads.error}
                     </p>
                     <button
                       onClick={fetchCommercialBankersLeads}
-                      className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700"
+                      className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
+                      <RefreshCw className="inline w-4 h-4 mr-2" />
                       Retry
                     </button>
                   </div>
                 ) : (
                   <>
                     <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                      <table
+                        className={`min-w-full divide-y transition-all duration-300 ${
+                          isDarkMode ? "divide-gray-700/50" : "divide-gray-200"
+                        }`}
+                      >
+                        <thead
+                          className={`transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm border-b border-gray-700/50"
+                              : "bg-gradient-to-r from-gray-50 to-white border-b border-gray-200"
+                          }`}
+                        >
                           <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Organization
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Industry
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact Info
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Status
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Next Touch
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Actions
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody
+                          className={`divide-y transition-all duration-300 ${
+                            isDarkMode
+                              ? "divide-gray-700/30"
+                              : "divide-gray-200"
+                          }`}
+                        >
                           {currentCommercialBankersLeads.map((lead) => (
                             <tr
                               key={lead.row_number}
-                              className={`hover:bg-gray-50 transition-colors ${
+                              className={`transition-all duration-300 hover:scale-[1.01] ${
                                 lead["Stop outreach"]
-                                  ? "bg-red-50 hover:bg-red-100"
-                                  : ""
+                                  ? isDarkMode
+                                    ? "bg-red-900/10 hover:bg-red-900/20 border-l-4 border-red-500/50"
+                                    : "bg-red-50 hover:bg-red-100 border-l-4 border-red-500"
+                                  : isDarkMode
+                                  ? "bg-gray-800/30 hover:bg-gray-700/50 hover:shadow-lg hover:shadow-gray-900/20"
+                                  : "bg-white hover:bg-gray-50 hover:shadow-md"
                               }`}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-orange-500 to-red-600 flex items-center justify-center">
-                                      <span className="text-white font-medium text-sm">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <div
+                                      className={`h-12 w-12 rounded-xl bg-gradient-to-br from-orange-500 via-amber-600 to-red-700 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "shadow-orange-500/25"
+                                          : "shadow-orange-500/20"
+                                      }`}
+                                    >
+                                      <span className="text-white font-semibold text-sm">
                                         {lead.FirstName.charAt(0)}
                                         {lead.LastName.charAt(0)}
                                       </span>
                                     </div>
                                   </div>
                                   <div className="ml-4">
-                                    <div className="text-sm font-medium text-gray-900">
+                                    <div
+                                      className={`text-sm font-semibold transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-white"
+                                          : "text-gray-900"
+                                      }`}
+                                    >
                                       {lead.FirstName} {lead.LastName}
                                     </div>
-                                    <div className="text-sm text-gray-500 max-w-xs truncate">
+                                    <div
+                                      className={`text-sm transition-colors duration-200 max-w-xs truncate ${
+                                        isDarkMode
+                                          ? "text-gray-400"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       {lead.Title}
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
+                                <div
+                                  className={`text-sm font-medium transition-colors duration-200 max-w-xs truncate ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   {lead.Organization}
                                 </div>
                                 {lead.OrganizationSite && (
@@ -2693,7 +3615,11 @@ function App() {
                                     href={lead.OrganizationSite}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm text-orange-600 hover:text-orange-800 flex items-center mt-1"
+                                    className={`text-sm flex items-center mt-2 transition-all duration-300 hover:scale-105 ${
+                                      isDarkMode
+                                        ? "text-orange-400 hover:text-orange-300"
+                                        : "text-orange-600 hover:text-orange-800"
+                                    }`}
                                   >
                                     <ExternalLink className="w-3 h-3 mr-1" />
                                     Website
@@ -2701,80 +3627,201 @@ function App() {
                                 )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
-                                  {lead.Industry}
+                                <span
+                                  className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full capitalize transition-all duration-300 ${
+                                    isDarkMode
+                                      ? "bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                                      : "bg-gray-100 text-gray-800"
+                                  }`}
+                                >
+                                  {lead.Industry || "N/A"}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                <div className="space-y-2">
+                                  {lead.Email && (
+                                    <div className="flex items-center">
+                                      <Mail
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
+                                      <a
+                                        href={`mailto:${lead.Email}`}
+                                        className={`truncate max-w-xs transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-orange-400 hover:text-orange-300"
+                                            : "text-orange-600 hover:text-orange-800"
+                                        }`}
+                                      >
+                                        {lead.Email}
+                                      </a>
+                                    </div>
+                                  )}
+                                  {lead.Phone && (
+                                    <div className="flex items-center">
+                                      <Phone
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
+                                      <a
+                                        href={`tel:${lead.Phone}`}
+                                        className={`transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-orange-400 hover:text-orange-300"
+                                            : "text-orange-600 hover:text-orange-800"
+                                        }`}
+                                      >
+                                        {formatPhone(lead.Phone)}
+                                      </a>
+                                    </div>
+                                  )}
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
-                                  <div className="flex items-center mb-1">
-                                    <Mail className="w-4 h-4 text-gray-400 mr-2" />
-                                    <a
-                                      href={`mailto:${lead.Email}`}
-                                      className="text-orange-600 hover:text-orange-800"
+                                <div className="space-y-2">
+                                  {getStatusBadge(lead.STATUS)}
+                                  {getTouchpointBadge(lead.TOUCHPOINT)}
+                                  {lead["Stop outreach"] && (
+                                    <span
+                                      className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+                                        isDarkMode
+                                          ? "bg-red-900/30 text-red-300 border border-red-700/50"
+                                          : "bg-red-100 text-red-800"
+                                      }`}
                                     >
-                                      {lead.Email}
-                                    </a>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                                    <span className="text-gray-900">
-                                      {formatPhone(lead.Phone)}
+                                      Stop Outreach
                                     </span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div
+                                  className={`text-sm transition-colors duration-200 ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
+                                  <div className="flex items-center">
+                                    <Calendar
+                                      className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-400"
+                                      }`}
+                                    />
+                                    {formatDate(lead.NEXT_TOUCH_DATE)}
                                   </div>
+                                  {lead.LAST_TOUCH && (
+                                    <div
+                                      className={`text-xs mt-1 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
+                                      Last: {formatDate(lead.LAST_TOUCH)}
+                                    </div>
+                                  )}
                                 </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                {getStatusBadge(lead.STATUS)}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
-                                  {formatDate(lead.NEXT_TOUCH_DATE)}
-                                </div>
-                                {getTouchpointBadge(lead.TOUCHPOINT)}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                {lead["Stop outreach"] ? (
-                                  <span className="text-red-600 font-medium">
-                                    Outreach Stopped
-                                  </span>
-                                ) : !lead.Email ? (
-                                  <button
-                                    disabled
-                                    title="No email available"
-                                    className="flex items-center px-3 py-1 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed transition-colors"
-                                  >
-                                    <StopCircle className="w-4 h-4 mr-1" />
-                                    Stop Outreach
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() =>
-                                      stopCommercialBankersOutreach(
-                                        lead.Email,
-                                        `${lead.FirstName} ${lead.LastName}`
-                                      )
-                                    }
-                                    disabled={stoppingCommercialBankersOutreach.has(
-                                      lead.Email
-                                    )}
-                                    className="flex items-center px-3 py-1 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                  >
-                                    {stoppingCommercialBankersOutreach.has(
-                                      lead.Email
-                                    ) ? (
-                                      <>
-                                        <Loader className="w-4 h-4 mr-1 animate-spin" />
-                                        Stopping...
-                                      </>
-                                    ) : (
-                                      <>
-                                        <StopCircle className="w-4 h-4 mr-1" />
-                                        Stop Outreach
-                                      </>
-                                    )}
-                                  </button>
-                                )}
+                                <div className="flex items-center space-x-3">
+                                  {lead.LinkedIn && (
+                                    <a
+                                      href={lead.LinkedIn}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className={`transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "text-orange-400 hover:text-orange-300"
+                                          : "text-orange-600 hover:text-orange-900"
+                                      }`}
+                                      title="View LinkedIn Profile"
+                                    >
+                                      <ExternalLink className="w-4 h-4" />
+                                    </a>
+                                  )}
+
+                                  {/* Stop Outreach Button */}
+                                  {lead["Stop outreach"] ? (
+                                    <div
+                                      className={`flex items-center transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-red-400"
+                                          : "text-red-600"
+                                      }`}
+                                      title="Outreach stopped"
+                                    >
+                                      <StopCircle className="w-4 h-4 mr-1" />
+                                      <span className="text-xs font-medium">
+                                        Stopped
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="relative group">
+                                      <button
+                                        onClick={() =>
+                                          stopCommercialBankersOutreach(
+                                            lead.Email,
+                                            `${lead.FirstName} ${lead.LastName}`
+                                          )
+                                        }
+                                        disabled={
+                                          stoppingCommercialBankersOutreach.has(
+                                            lead.Email
+                                          ) || !lead.Email
+                                        }
+                                        className={`flex items-center px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                          isDarkMode
+                                            ? "text-red-400 hover:text-red-300 hover:bg-red-900/20 border border-red-700/50"
+                                            : "text-red-600 hover:text-red-800 hover:bg-red-50 border border-red-200"
+                                        }`}
+                                        title={
+                                          !lead.Email
+                                            ? "No email available"
+                                            : "Stop outreach for this lead"
+                                        }
+                                      >
+                                        {stoppingCommercialBankersOutreach.has(
+                                          lead.Email
+                                        ) ? (
+                                          <>
+                                            <Loader className="w-3 h-3 mr-1 animate-spin" />
+                                            Stopping...
+                                          </>
+                                        ) : (
+                                          <>
+                                            <StopCircle className="w-3 h-3 mr-1" />
+                                            Stop
+                                          </>
+                                        )}
+                                      </button>
+                                      {!lead.Email && (
+                                        <div
+                                          className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-10 ${
+                                            isDarkMode
+                                              ? "text-white bg-gray-800 border border-gray-700"
+                                              : "text-white bg-gray-900"
+                                          }`}
+                                        >
+                                          No email available
+                                          <div
+                                            className={`absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent ${
+                                              isDarkMode
+                                                ? "border-t-gray-800"
+                                                : "border-t-gray-900"
+                                            }`}
+                                          ></div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
                               </td>
                             </tr>
                           ))}
@@ -2784,23 +3831,45 @@ function App() {
 
                     {/* Commercial Bankers Pagination */}
                     {totalCommercialBankersItems > 0 && (
-                      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                      <div
+                        className={`px-6 py-6 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-t border-gray-700/50 backdrop-blur-sm"
+                            : "bg-gradient-to-r from-gray-50 to-white border-t border-gray-200"
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-gray-700">
+                          <div
+                            className={`flex items-center text-sm transition-colors duration-200 ${
+                              isDarkMode ? "text-gray-300" : "text-gray-700"
+                            }`}
+                          >
                             <span>
                               Showing{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {startCommercialBankersIndex + 1}
                               </span>{" "}
                               to{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {Math.min(
                                   endCommercialBankersIndex,
                                   totalCommercialBankersItems
                                 )}
                               </span>{" "}
                               of{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {totalCommercialBankersItems}
                               </span>{" "}
                               results
@@ -2812,7 +3881,11 @@ function App() {
                               <button
                                 onClick={goToCommercialBankersPrevious}
                                 disabled={currentCommercialBankersPage === 1}
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                 Previous
@@ -2852,10 +3925,14 @@ function App() {
                                         onClick={() =>
                                           goToCommercialBankersPage(pageNum)
                                         }
-                                        className={`px-3 py-1 text-sm font-medium rounded-lg transition-colors ${
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
                                           currentCommercialBankersPage ===
                                           pageNum
-                                            ? "bg-orange-600 text-white"
+                                            ? isDarkMode
+                                              ? "bg-gradient-to-r from-orange-600 to-orange-700 text-white shadow-lg shadow-orange-500/25"
+                                              : "bg-gradient-to-r from-orange-600 to-orange-700 text-white shadow-lg shadow-orange-500/25"
+                                            : isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
                                             : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
                                         }`}
                                       >
@@ -2869,14 +3946,26 @@ function App() {
                                   currentCommercialBankersPage <
                                     totalCommercialBankersPages - 2 && (
                                     <>
-                                      <span className="text-gray-500">...</span>
+                                      <span
+                                        className={`text-sm transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-500"
+                                        }`}
+                                      >
+                                        ...
+                                      </span>
                                       <button
                                         onClick={() =>
                                           goToCommercialBankersPage(
                                             totalCommercialBankersPages
                                           )
                                         }
-                                        className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                            : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+                                        }`}
                                       >
                                         {totalCommercialBankersPages}
                                       </button>
@@ -2890,7 +3979,11 @@ function App() {
                                   currentCommercialBankersPage ===
                                   totalCommercialBankersPages
                                 }
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 Next
                                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -2907,12 +4000,30 @@ function App() {
           )}
 
           {activeTab === "residentialRealtors" && (
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
+            <div
+              className={`rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-gray-800/95 border border-gray-700/50"
+                  : "bg-white/95 border border-gray-200/50"
+              }`}
+            >
+              <div
+                className={`px-8 py-6 border-b transition-all duration-300 ${
+                  isDarkMode ? "border-gray-700/50" : "border-gray-200/50"
+                }`}
+              >
+                <h2
+                  className={`text-xl font-semibold transition-colors duration-200 ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   Residential Realtors & Loan Officers
                 </h2>
-                <p className="text-sm text-gray-600">
+                <p
+                  className={`text-sm transition-colors duration-200 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   Total: {totalResidentialRealtorsItems || 0} leads
                 </p>
               </div>
@@ -2923,7 +4034,9 @@ function App() {
                     <div className="flex-1">
                       <label
                         htmlFor="residential-realtors-search"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Search by Name, Email, or Phone
                       </label>
@@ -2939,14 +4052,20 @@ function App() {
                             setResidentialRealtorsSearchTerm(e.target.value)
                           }
                           placeholder="Search leads..."
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                          className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gray-700/50 border-gray-600/50 text-white placeholder-gray-400 backdrop-blur-sm"
+                              : "border-gray-300/50 bg-white/50 text-gray-900 placeholder-gray-500 backdrop-blur-sm"
+                          }`}
                         />
                       </div>
                     </div>
                     <div className="sm:w-48">
                       <label
                         htmlFor="residential-realtors-outreach-filter"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
                         Outreach Status
                       </label>
@@ -2958,7 +4077,11 @@ function App() {
                             e.target.value as "all" | "running" | "stopped"
                           )
                         }
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
                       >
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
@@ -2969,85 +4092,202 @@ function App() {
                 </div>
 
                 {residentialRealtorsLeads.isLoading ? (
-                  <div className="flex justify-center items-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
-                    <span className="ml-2 text-gray-600">
+                  <div className="flex flex-col justify-center items-center py-12">
+                    <div className="relative">
+                      <div className="animate-spin rounded-full h-12 w-12 border-4 border-teal-200 border-t-teal-600"></div>
+                      <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-teal-400 animate-pulse"></div>
+                    </div>
+                    <span
+                      className={`mt-4 text-lg font-medium transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
                       Loading Residential Realtors leads...
                     </span>
+                    <p
+                      className={`mt-2 text-sm transition-colors duration-200 ${
+                        isDarkMode ? "text-gray-500" : "text-gray-600"
+                      }`}
+                    >
+                      Please wait while we fetch your data
+                    </p>
                   </div>
                 ) : residentialRealtorsLeads.error ? (
-                  <div className="text-center py-8">
-                    <p className="text-red-600 mb-4">
+                  <div className="text-center py-12">
+                    <div
+                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                        isDarkMode ? "bg-red-900/20" : "bg-red-100"
+                      }`}
+                    >
+                      <AlertCircle className="h-8 w-8 text-red-500" />
+                    </div>
+                    <h3
+                      className={`text-lg font-semibold mb-2 transition-colors duration-200 ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      Error Loading Data
+                    </h3>
+                    <p
+                      className={`text-red-500 mb-6 transition-colors duration-200 ${
+                        isDarkMode ? "text-red-400" : "text-red-600"
+                      }`}
+                    >
                       {residentialRealtorsLeads.error}
                     </p>
                     <button
                       onClick={fetchResidentialRealtorsLeads}
-                      className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                      className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-xl hover:from-teal-700 hover:to-teal-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
+                      <RefreshCw className="inline w-4 h-4 mr-2" />
                       Retry
                     </button>
                   </div>
                 ) : (
                   <>
                     <div className="overflow-x-auto">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                      <table
+                        className={`min-w-full divide-y transition-all duration-300 ${
+                          isDarkMode ? "divide-gray-700/50" : "divide-gray-200"
+                        }`}
+                      >
+                        <thead
+                          className={`transition-all duration-300 ${
+                            isDarkMode
+                              ? "bg-gradient-to-r from-gray-800/80 to-gray-900/80 backdrop-blur-sm border-b border-gray-700/50"
+                              : "bg-gradient-to-r from-gray-50 to-white border-b border-gray-200"
+                          }`}
+                        >
                           <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Organization
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Industry
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Contact Info
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Status
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Next Touch
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                              className={`px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                                isDarkMode
+                                  ? "text-gray-300 bg-gradient-to-r from-gray-800/50 to-gray-900/50"
+                                  : "text-gray-600 bg-gradient-to-r from-gray-50/50 to-white/50"
+                              }`}
+                            >
                               Actions
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody
+                          className={`divide-y transition-all duration-300 ${
+                            isDarkMode
+                              ? "divide-gray-700/30"
+                              : "divide-gray-200"
+                          }`}
+                        >
                           {currentResidentialRealtorsLeads.map((lead) => (
                             <tr
                               key={lead.row_number}
-                              className={`hover:bg-gray-50 transition-colors ${
+                              className={`transition-all duration-300 hover:scale-[1.01] ${
                                 lead["Stop outreach"]
-                                  ? "bg-red-50 hover:bg-red-100"
-                                  : ""
+                                  ? isDarkMode
+                                    ? "bg-red-900/10 hover:bg-red-900/20 border-l-4 border-red-500/50"
+                                    : "bg-red-50 hover:bg-red-100 border-l-4 border-red-500"
+                                  : isDarkMode
+                                  ? "bg-gray-800/30 hover:bg-gray-700/50 hover:shadow-lg hover:shadow-gray-900/20"
+                                  : "bg-white hover:bg-gray-50 hover:shadow-md"
                               }`}
                             >
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center">
-                                      <span className="text-white font-medium text-sm">
+                                  <div className="flex-shrink-0 h-12 w-12">
+                                    <div
+                                      className={`h-12 w-12 rounded-xl bg-gradient-to-br from-teal-500 via-cyan-600 to-blue-700 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "shadow-teal-500/25"
+                                          : "shadow-teal-500/20"
+                                      }`}
+                                    >
+                                      <span className="text-white font-semibold text-sm">
                                         {lead.FirstName.charAt(0)}
                                         {lead.LastName.charAt(0)}
                                       </span>
                                     </div>
                                   </div>
                                   <div className="ml-4">
-                                    <div className="text-sm font-medium text-gray-900">
+                                    <div
+                                      className={`text-sm font-semibold transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-white"
+                                          : "text-gray-900"
+                                      }`}
+                                    >
                                       {lead.FirstName} {lead.LastName}
                                     </div>
-                                    <div className="text-sm text-gray-500 max-w-xs truncate">
+                                    <div
+                                      className={`text-sm transition-colors duration-200 max-w-xs truncate ${
+                                        isDarkMode
+                                          ? "text-gray-400"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
                                       {lead.Title}
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
+                                <div
+                                  className={`text-sm font-medium transition-colors duration-200 max-w-xs truncate ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
                                   {lead.Organization}
                                 </div>
                                 {lead.OrganizationSite && (
@@ -3055,7 +4295,11 @@ function App() {
                                     href={lead.OrganizationSite}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm text-teal-600 hover:text-teal-800 flex items-center mt-1"
+                                    className={`text-sm flex items-center mt-2 transition-all duration-300 hover:scale-105 ${
+                                      isDarkMode
+                                        ? "text-teal-400 hover:text-teal-300"
+                                        : "text-teal-600 hover:text-teal-800"
+                                    }`}
                                   >
                                     <ExternalLink className="w-3 h-3 mr-1" />
                                     Website
@@ -3063,71 +4307,201 @@ function App() {
                                 )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
-                                  {lead.Industry}
+                                <span
+                                  className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full capitalize transition-all duration-300 ${
+                                    isDarkMode
+                                      ? "bg-gray-700/50 text-gray-300 border border-gray-600/50"
+                                      : "bg-gray-100 text-gray-800"
+                                  }`}
+                                >
+                                  {lead.Industry || "N/A"}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                <div className="space-y-2">
+                                  {lead.Email && (
+                                    <div className="flex items-center">
+                                      <Mail
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
+                                      <a
+                                        href={`mailto:${lead.Email}`}
+                                        className={`truncate max-w-xs transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-teal-400 hover:text-teal-300"
+                                            : "text-teal-600 hover:text-teal-800"
+                                        }`}
+                                      >
+                                        {lead.Email}
+                                      </a>
+                                    </div>
+                                  )}
+                                  {lead.Phone && (
+                                    <div className="flex items-center">
+                                      <Phone
+                                        className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-400"
+                                        }`}
+                                      />
+                                      <a
+                                        href={`tel:${lead.Phone}`}
+                                        className={`transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-teal-400 hover:text-teal-300"
+                                            : "text-teal-600 hover:text-teal-800"
+                                        }`}
+                                      >
+                                        {formatPhone(lead.Phone)}
+                                      </a>
+                                    </div>
+                                  )}
                                 </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
-                                  <div className="flex items-center mb-1">
-                                    <Mail className="w-4 h-4 text-gray-400 mr-2" />
-                                    <a
-                                      href={`mailto:${lead.Email}`}
-                                      className="text-teal-600 hover:text-teal-800"
+                                <div className="space-y-2">
+                                  {getStatusBadge(lead.STATUS)}
+                                  {getTouchpointBadge(lead.TOUCHPOINT)}
+                                  {lead["Stop outreach"] && (
+                                    <span
+                                      className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full transition-all duration-300 ${
+                                        isDarkMode
+                                          ? "bg-red-900/30 text-red-300 border border-red-700/50"
+                                          : "bg-red-100 text-red-800"
+                                      }`}
                                     >
-                                      {lead.Email}
-                                    </a>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                                    <span className="text-gray-900">
-                                      {formatPhone(lead.Phone)}
+                                      Stop Outreach
                                     </span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div
+                                  className={`text-sm transition-colors duration-200 ${
+                                    isDarkMode ? "text-white" : "text-gray-900"
+                                  }`}
+                                >
+                                  <div className="flex items-center">
+                                    <Calendar
+                                      className={`w-3 h-3 mr-2 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-400"
+                                      }`}
+                                    />
+                                    {formatDate(lead.NEXT_TOUCH_DATE)}
                                   </div>
+                                  {lead.LAST_TOUCH && (
+                                    <div
+                                      className={`text-xs mt-1 transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-gray-500"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
+                                      Last: {formatDate(lead.LAST_TOUCH)}
+                                    </div>
+                                  )}
                                 </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                {getStatusBadge(lead.STATUS)}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">
-                                  {formatDate(lead.NEXT_TOUCH_DATE)}
-                                </div>
-                                {getTouchpointBadge(lead.TOUCHPOINT)}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                {lead["Stop outreach"] ? (
-                                  <span className="text-red-600 font-medium">
-                                    Outreach Stopped
-                                  </span>
-                                ) : (
-                                  <button
-                                    onClick={() =>
-                                      stopResidentialRealtorsOutreach(
-                                        lead.Email,
-                                        `${lead.FirstName} ${lead.LastName}`
-                                      )
-                                    }
-                                    disabled={stoppingResidentialRealtorsOutreach.has(
-                                      lead.Email
-                                    )}
-                                    className="flex items-center px-3 py-1 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                  >
-                                    {stoppingResidentialRealtorsOutreach.has(
-                                      lead.Email
-                                    ) ? (
-                                      <>
-                                        <Loader className="w-4 h-4 mr-1 animate-spin" />
-                                        Stopping...
-                                      </>
-                                    ) : (
-                                      <>
-                                        <StopCircle className="w-4 h-4 mr-1" />
-                                        Stop Outreach
-                                      </>
-                                    )}
-                                  </button>
-                                )}
+                                <div className="flex items-center space-x-3">
+                                  {lead.LinkedIn && (
+                                    <a
+                                      href={lead.LinkedIn}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className={`transition-all duration-300 hover:scale-110 ${
+                                        isDarkMode
+                                          ? "text-teal-400 hover:text-teal-300"
+                                          : "text-teal-600 hover:text-teal-900"
+                                      }`}
+                                      title="View LinkedIn Profile"
+                                    >
+                                      <ExternalLink className="w-4 h-4" />
+                                    </a>
+                                  )}
+
+                                  {/* Stop Outreach Button */}
+                                  {lead["Stop outreach"] ? (
+                                    <div
+                                      className={`flex items-center transition-colors duration-200 ${
+                                        isDarkMode
+                                          ? "text-red-400"
+                                          : "text-red-600"
+                                      }`}
+                                      title="Outreach stopped"
+                                    >
+                                      <StopCircle className="w-4 h-4 mr-1" />
+                                      <span className="text-xs font-medium">
+                                        Stopped
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="relative group">
+                                      <button
+                                        onClick={() =>
+                                          stopResidentialRealtorsOutreach(
+                                            lead.Email,
+                                            `${lead.FirstName} ${lead.LastName}`
+                                          )
+                                        }
+                                        disabled={
+                                          stoppingResidentialRealtorsOutreach.has(
+                                            lead.Email
+                                          ) || !lead.Email
+                                        }
+                                        className={`flex items-center px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                          isDarkMode
+                                            ? "text-red-400 hover:text-red-300 hover:bg-red-900/20 border border-red-700/50"
+                                            : "text-red-600 hover:text-red-800 hover:bg-red-50 border border-red-200"
+                                        }`}
+                                        title={
+                                          !lead.Email
+                                            ? "No email available"
+                                            : "Stop outreach for this lead"
+                                        }
+                                      >
+                                        {stoppingResidentialRealtorsOutreach.has(
+                                          lead.Email
+                                        ) ? (
+                                          <>
+                                            <Loader className="w-3 h-3 mr-1 animate-spin" />
+                                            Stopping...
+                                          </>
+                                        ) : (
+                                          <>
+                                            <StopCircle className="w-3 h-3 mr-1" />
+                                            Stop
+                                          </>
+                                        )}
+                                      </button>
+                                      {!lead.Email && (
+                                        <div
+                                          className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-10 ${
+                                            isDarkMode
+                                              ? "text-white bg-gray-800 border border-gray-700"
+                                              : "text-white bg-gray-900"
+                                          }`}
+                                        >
+                                          No email available
+                                          <div
+                                            className={`absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent ${
+                                              isDarkMode
+                                                ? "border-t-gray-800"
+                                                : "border-t-gray-900"
+                                            }`}
+                                          ></div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
                               </td>
                             </tr>
                           ))}
@@ -3137,23 +4511,45 @@ function App() {
 
                     {/* Residential Realtors Pagination */}
                     {totalResidentialRealtorsItems > 0 && (
-                      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                      <div
+                        className={`px-6 py-6 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gradient-to-r from-gray-800/50 to-gray-900/50 border-t border-gray-700/50 backdrop-blur-sm"
+                            : "bg-gradient-to-r from-gray-50 to-white border-t border-gray-200"
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-gray-700">
+                          <div
+                            className={`flex items-center text-sm transition-colors duration-200 ${
+                              isDarkMode ? "text-gray-300" : "text-gray-700"
+                            }`}
+                          >
                             <span>
                               Showing{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {startResidentialRealtorsIndex + 1}
                               </span>{" "}
                               to{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {Math.min(
                                   endResidentialRealtorsIndex,
                                   totalResidentialRealtorsItems
                                 )}
                               </span>{" "}
                               of{" "}
-                              <span className="font-medium">
+                              <span
+                                className={`font-semibold transition-colors duration-200 ${
+                                  isDarkMode ? "text-white" : "text-gray-900"
+                                }`}
+                              >
                                 {totalResidentialRealtorsItems}
                               </span>{" "}
                               results
@@ -3165,7 +4561,11 @@ function App() {
                               <button
                                 onClick={goToResidentialRealtorsPrevious}
                                 disabled={currentResidentialRealtorsPage === 1}
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                 Previous
@@ -3205,10 +4605,14 @@ function App() {
                                         onClick={() =>
                                           goToResidentialRealtorsPage(pageNum)
                                         }
-                                        className={`px-3 py-1 text-sm font-medium rounded-lg transition-colors ${
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
                                           currentResidentialRealtorsPage ===
                                           pageNum
-                                            ? "bg-teal-600 text-white"
+                                            ? isDarkMode
+                                              ? "bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg shadow-teal-500/25"
+                                              : "bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg shadow-teal-500/25"
+                                            : isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
                                             : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
                                         }`}
                                       >
@@ -3222,14 +4626,26 @@ function App() {
                                   currentResidentialRealtorsPage <
                                     totalResidentialRealtorsPages - 2 && (
                                     <>
-                                      <span className="text-gray-500">...</span>
+                                      <span
+                                        className={`text-sm transition-colors duration-200 ${
+                                          isDarkMode
+                                            ? "text-gray-500"
+                                            : "text-gray-500"
+                                        }`}
+                                      >
+                                        ...
+                                      </span>
                                       <button
                                         onClick={() =>
                                           goToResidentialRealtorsPage(
                                             totalResidentialRealtorsPages
                                           )
                                         }
-                                        className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 ${
+                                          isDarkMode
+                                            ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                            : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+                                        }`}
                                       >
                                         {totalResidentialRealtorsPages}
                                       </button>
@@ -3243,7 +4659,11 @@ function App() {
                                   currentResidentialRealtorsPage ===
                                   totalResidentialRealtorsPages
                                 }
-                                className="flex items-center px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                  isDarkMode
+                                    ? "text-gray-400 bg-gray-700/50 border border-gray-600/50 hover:bg-gray-600/50 hover:text-gray-300"
+                                    : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                }`}
                               >
                                 Next
                                 <ChevronRight className="w-4 h-4 ml-1" />
