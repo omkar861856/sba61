@@ -178,6 +178,25 @@ function App() {
     setResidentialRealtorsOutreachFilter,
   ] = useState<"all" | "running" | "stopped">("all");
 
+  // Touch filter state
+  const [touchFilter, setTouchFilter] = useState<
+    "all" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10"
+  >("all");
+  const [realtorTouchFilter, setRealtorTouchFilter] = useState<
+    "all" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10"
+  >("all");
+  const [loanOfficerTouchFilter, setLoanOfficerTouchFilter] = useState<
+    "all" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10"
+  >("all");
+  const [commercialBankersTouchFilter, setCommercialBankersTouchFilter] =
+    useState<
+      "all" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10"
+    >("all");
+  const [residentialRealtorsTouchFilter, setResidentialRealtorsTouchFilter] =
+    useState<
+      "all" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10"
+    >("all");
+
   // Dark mode state - default to dark mode
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
@@ -701,7 +720,19 @@ function App() {
   const filterLeads = (
     leads: CRELead[],
     searchTerm: string,
-    outreachFilter: "all" | "running" | "stopped"
+    outreachFilter: "all" | "running" | "stopped",
+    touchFilter:
+      | "all"
+      | "1"
+      | "2"
+      | "3"
+      | "4"
+      | "5"
+      | "6"
+      | "7"
+      | "8"
+      | "9"
+      | "10"
   ) => {
     return leads.filter((lead) => {
       // Search filter
@@ -724,7 +755,11 @@ function App() {
         (outreachFilter === "stopped" && isStopped) ||
         (outreachFilter === "running" && !isStopped);
 
-      return matchesSearch && matchesOutreachFilter;
+      // Touch filter
+      const matchesTouchFilter =
+        touchFilter === "all" || lead.TOUCHPOINT.toString() === touchFilter;
+
+      return matchesSearch && matchesOutreachFilter && matchesTouchFilter;
     });
   };
 
@@ -732,26 +767,30 @@ function App() {
   const filteredCRELeads = filterLeads(
     creLeads.leads,
     searchTerm,
-    outreachFilter
+    outreachFilter,
+    touchFilter
   );
   const filteredRealtorLeads = filterLeads(
     realtorLeads.leads,
     realtorSearchTerm,
-    realtorOutreachFilter
+    realtorOutreachFilter,
+    realtorTouchFilter
   );
   const filteredLoanOfficerLeads = filterLeads(
     loanOfficerLeads?.leads && Array.isArray(loanOfficerLeads.leads)
       ? loanOfficerLeads.leads
       : [],
     loanOfficerSearchTerm,
-    loanOfficerOutreachFilter
+    loanOfficerOutreachFilter,
+    loanOfficerTouchFilter
   );
   const filteredCommercialBankersLeads = filterLeads(
     commercialBankersLeads?.leads && Array.isArray(commercialBankersLeads.leads)
       ? commercialBankersLeads.leads
       : [],
     commercialBankersSearchTerm,
-    commercialBankersOutreachFilter
+    commercialBankersOutreachFilter,
+    commercialBankersTouchFilter
   );
   console.log("Commercial Bankers state:", {
     leads: commercialBankersLeads?.leads?.length,
@@ -766,7 +805,8 @@ function App() {
       ? residentialRealtorsLeads.leads
       : [],
     residentialRealtorsSearchTerm,
-    residentialRealtorsOutreachFilter
+    residentialRealtorsOutreachFilter,
+    residentialRealtorsTouchFilter
   );
   console.log("Residential Realtors state:", {
     leads: residentialRealtorsLeads?.leads?.length,
@@ -833,11 +873,16 @@ function App() {
   // Reset to first page when new data is loaded or filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [creLeads.leads.length, searchTerm, outreachFilter]);
+  }, [creLeads.leads.length, searchTerm, outreachFilter, touchFilter]);
 
   useEffect(() => {
     setCurrentRealtorPage(1);
-  }, [realtorLeads.leads.length, realtorSearchTerm, realtorOutreachFilter]);
+  }, [
+    realtorLeads.leads.length,
+    realtorSearchTerm,
+    realtorOutreachFilter,
+    realtorTouchFilter,
+  ]);
 
   useEffect(() => {
     setCurrentLoanOfficerPage(1);
@@ -845,6 +890,7 @@ function App() {
     loanOfficerLeads.leads.length,
     loanOfficerSearchTerm,
     loanOfficerOutreachFilter,
+    loanOfficerTouchFilter,
   ]);
 
   useEffect(() => {
@@ -853,6 +899,7 @@ function App() {
     commercialBankersLeads.leads.length,
     commercialBankersSearchTerm,
     commercialBankersOutreachFilter,
+    commercialBankersTouchFilter,
   ]);
 
   useEffect(() => {
@@ -861,6 +908,7 @@ function App() {
     residentialRealtorsLeads.leads.length,
     residentialRealtorsSearchTerm,
     residentialRealtorsOutreachFilter,
+    residentialRealtorsTouchFilter,
   ]);
 
   const goToPage = (page: number) => {
@@ -1426,6 +1474,53 @@ function App() {
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
                         <option value="stopped">Stopped Outreach</option>
+                      </select>
+                    </div>
+                    <div className="sm:w-48">
+                      <label
+                        htmlFor="cre-touch-filter"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        Touch Point
+                      </label>
+                      <select
+                        id="cre-touch-filter"
+                        value={touchFilter}
+                        onChange={(e) =>
+                          setTouchFilter(
+                            e.target.value as
+                              | "all"
+                              | "1"
+                              | "2"
+                              | "3"
+                              | "4"
+                              | "5"
+                              | "6"
+                              | "7"
+                              | "8"
+                              | "9"
+                              | "10"
+                          )
+                        }
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
+                      >
+                        <option value="all">All Touch Points</option>
+                        <option value="1">Touch 1</option>
+                        <option value="2">Touch 2</option>
+                        <option value="3">Touch 3</option>
+                        <option value="4">Touch 4</option>
+                        <option value="5">Touch 5</option>
+                        <option value="6">Touch 6</option>
+                        <option value="7">Touch 7</option>
+                        <option value="8">Touch 8</option>
+                        <option value="9">Touch 9</option>
+                        <option value="10">Touch 10</option>
                       </select>
                     </div>
                   </div>
@@ -2074,6 +2169,53 @@ function App() {
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
                         <option value="stopped">Stopped Outreach</option>
+                      </select>
+                    </div>
+                    <div className="sm:w-48">
+                      <label
+                        htmlFor="realtor-touch-filter"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        Touch Point
+                      </label>
+                      <select
+                        id="realtor-touch-filter"
+                        value={realtorTouchFilter}
+                        onChange={(e) =>
+                          setRealtorTouchFilter(
+                            e.target.value as
+                              | "all"
+                              | "1"
+                              | "2"
+                              | "3"
+                              | "4"
+                              | "5"
+                              | "6"
+                              | "7"
+                              | "8"
+                              | "9"
+                              | "10"
+                          )
+                        }
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
+                      >
+                        <option value="all">All Touch Points</option>
+                        <option value="1">Touch 1</option>
+                        <option value="2">Touch 2</option>
+                        <option value="3">Touch 3</option>
+                        <option value="4">Touch 4</option>
+                        <option value="5">Touch 5</option>
+                        <option value="6">Touch 6</option>
+                        <option value="7">Touch 7</option>
+                        <option value="8">Touch 8</option>
+                        <option value="9">Touch 9</option>
+                        <option value="10">Touch 10</option>
                       </select>
                     </div>
                   </div>
@@ -2735,6 +2877,53 @@ function App() {
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
                         <option value="stopped">Stopped Outreach</option>
+                      </select>
+                    </div>
+                    <div className="sm:w-48">
+                      <label
+                        htmlFor="loan-officer-touch-filter"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        Touch Point
+                      </label>
+                      <select
+                        id="loan-officer-touch-filter"
+                        value={loanOfficerTouchFilter}
+                        onChange={(e) =>
+                          setLoanOfficerTouchFilter(
+                            e.target.value as
+                              | "all"
+                              | "1"
+                              | "2"
+                              | "3"
+                              | "4"
+                              | "5"
+                              | "6"
+                              | "7"
+                              | "8"
+                              | "9"
+                              | "10"
+                          )
+                        }
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
+                      >
+                        <option value="all">All Touch Points</option>
+                        <option value="1">Touch 1</option>
+                        <option value="2">Touch 2</option>
+                        <option value="3">Touch 3</option>
+                        <option value="4">Touch 4</option>
+                        <option value="5">Touch 5</option>
+                        <option value="6">Touch 6</option>
+                        <option value="7">Touch 7</option>
+                        <option value="8">Touch 8</option>
+                        <option value="9">Touch 9</option>
+                        <option value="10">Touch 10</option>
                       </select>
                     </div>
                   </div>
@@ -3406,6 +3595,53 @@ function App() {
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
                         <option value="stopped">Stopped Outreach</option>
+                      </select>
+                    </div>
+                    <div className="sm:w-48">
+                      <label
+                        htmlFor="commercial-bankers-touch-filter"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        Touch Point
+                      </label>
+                      <select
+                        id="commercial-bankers-touch-filter"
+                        value={commercialBankersTouchFilter}
+                        onChange={(e) =>
+                          setCommercialBankersTouchFilter(
+                            e.target.value as
+                              | "all"
+                              | "1"
+                              | "2"
+                              | "3"
+                              | "4"
+                              | "5"
+                              | "6"
+                              | "7"
+                              | "8"
+                              | "9"
+                              | "10"
+                          )
+                        }
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
+                      >
+                        <option value="all">All Touch Points</option>
+                        <option value="1">Touch 1</option>
+                        <option value="2">Touch 2</option>
+                        <option value="3">Touch 3</option>
+                        <option value="4">Touch 4</option>
+                        <option value="5">Touch 5</option>
+                        <option value="6">Touch 6</option>
+                        <option value="7">Touch 7</option>
+                        <option value="8">Touch 8</option>
+                        <option value="9">Touch 9</option>
+                        <option value="10">Touch 10</option>
                       </select>
                     </div>
                   </div>
@@ -4086,6 +4322,53 @@ function App() {
                         <option value="all">All Leads</option>
                         <option value="running">Running Outreach</option>
                         <option value="stopped">Stopped Outreach</option>
+                      </select>
+                    </div>
+                    <div className="sm:w-48">
+                      <label
+                        htmlFor="residential-realtors-touch-filter"
+                        className={`block text-sm font-medium mb-2 transition-colors duration-200 ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        Touch Point
+                      </label>
+                      <select
+                        id="residential-realtors-touch-filter"
+                        value={residentialRealtorsTouchFilter}
+                        onChange={(e) =>
+                          setResidentialRealtorsTouchFilter(
+                            e.target.value as
+                              | "all"
+                              | "1"
+                              | "2"
+                              | "3"
+                              | "4"
+                              | "5"
+                              | "6"
+                              | "7"
+                              | "8"
+                              | "9"
+                              | "10"
+                          )
+                        }
+                        className={`w-full px-4 py-3 border-2 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all duration-300 ${
+                          isDarkMode
+                            ? "bg-gray-700/50 border-gray-600/50 text-white backdrop-blur-sm"
+                            : "border-gray-300/50 bg-white/50 text-gray-900 backdrop-blur-sm"
+                        }`}
+                      >
+                        <option value="all">All Touch Points</option>
+                        <option value="1">Touch 1</option>
+                        <option value="2">Touch 2</option>
+                        <option value="3">Touch 3</option>
+                        <option value="4">Touch 4</option>
+                        <option value="5">Touch 5</option>
+                        <option value="6">Touch 6</option>
+                        <option value="7">Touch 7</option>
+                        <option value="8">Touch 8</option>
+                        <option value="9">Touch 9</option>
+                        <option value="10">Touch 10</option>
                       </select>
                     </div>
                   </div>
